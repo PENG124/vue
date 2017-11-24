@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+.box{
+    width: 300px;
+    height: auto;
+    margin: 20px auto;
+}
+.parent{
+    width: 200px;
+    height: auto;
+    margin: auto;
+}
+.parent>li{
+    width: 100%;
+    cursor: pointer;
+}
+.parent>li>span{
+    background: #f9f2f4;
+    display: block;
+    font-size: 18px;
+    color: #000;
+    text-align: center;
+    line-height: 40px;
+    /*border-bottom: 1px solid #445588;*/
+}
+.child{
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+.child>li>a{
+    display: block;
+    font-size: 12px;
+    color: #445588;
+    text-align: center;
+    line-height: 20px;
+}

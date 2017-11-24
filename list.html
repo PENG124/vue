@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <style>
+        .box{
+            width: 600px;
+            height: 100%;
+            margin: auto;
+            border: 2px solid #1b6d85;
+        }
+        .box .add{
+            width: 100%;
+            height: 40px;
+            padding: 20px 0;
+        }
+        .add input {
+            width: 400px;
+            height: 35px;
+            border-radius: 4px;
+            font-size: 18px;
+            margin: auto;
+            display: block;
+        }
+        .box .btn{
+            width: 100%;
+            height: 35px;
+        }
+        .btn input{
+            width: 70px;
+            height: 35px;
+            margin-right: 20px;
+            float: right;
+            background: #1b6d85;
+            font-size: 14px;
+            text-align: center;
+            line-height: 35px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        .box .list{
+            width: 100%;
+            height: auto;
+        }
+        .listx,.edit{
+            width: 88%;
+            height: 30px;
+            margin: 10px auto;
+            font-size: 14px;
+            text-align: center;
+            line-height: 30px;
+            border-bottom: 1px solid #1b6d85;
+        }
+        .listx .checked{
+            width: 12px;
+            height: 12px;
+            margin: 8px;
+            border: 1px solid #1b6d85;
+            border-radius: 50%;
+            float: left;
+            cursor: pointer;
+        }
+        .listx .con{
+            height: 100%;
+            font-size: 14px;
+            line-height: 30px;
+            text-align: left;
+            color: #000000;
+            float: left;
+        }
+        .listx .del{
+            width: 50px;
+            height: 20px;
+            margin-top: 5px;
+            background: #1b6d85;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+            color: #fff;
+            float: right;
+            margin-right: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .red{
+            background: #1b6d85;
+        }
+    </style>
+</head>
+<body>
+    <div id="view">
+        <div class="box">
+            <div class="add">
+                <input type="text" placeholder="请输入待办事项" class="addtitle" @keydown.13="add()" v-model="text" v-focus="true">
+            </div>
+            <div class="btn">
+                <input type="button" value="已完成" @click="select(1)">
+                <input type="button" value="未完成" @click="select(0)">
+                <input type="button" value="全部" @click="select('all')">
+            </div>
+            <div class="list">
+
+                <div class="listx" v-show="all.length>0" v-for="item in datas" >
+                    <div class="edit" v-if="item.edit" @dbclick="edits(item)">
+                        <div class="checked" :class="{red:item.state==1}" @click="change(item,item.state)"></div>
+                        <span class="con">{{item.con}}</span>
+                        <span class="del" @click="del(item.id)">删除</span>
+                    </div>
+                    <div v-else>
+                        <input type="text" v-model="item.con" @blur="edits(item)">
+                    </div>
+                </div>
+                <div class="listx" v-show="all.length==0">没有更多了……</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    // 注册一个全局自定义指令 `v-focus`
+    Vue.directive('focus', {
+        // 当被绑定的元素插入到 DOM 中时……
+        inserted: function (el,val) {
+            // 聚焦元素
+            if(val){
+                el.focus()
+            }
+
+        }
+    })
+    var vm=new Vue({
+        el:"#view",
+        data:{
+            all: localStorage.todo?JSON.parse(localStorage.todo):[],
+            text:"",
+            status:"all",
+            aa:"",
+            edit:"true"
+        },
+        methods:{
+            add:function(){
+                var obj={};
+                   obj.id=1000*Math.random()+new Date().getTime();
+                   obj.con=this.text;
+                   obj.state=0;
+                   obj.edit=true;
+                   this.all.push(obj);
+                   localStorage.todo=JSON.stringify(this.all);
+                   this.text="";
+
+            },
+            change(item,state){
+                if(state==0){
+                    item.state=1;
+                }else{
+                    item.state=0;
+                }
+                localStorage.todo=JSON.stringify(this.all);
+            },
+            del(id) {
+                this.all=this.all.filter(function (a) {
+                    return a.id!=id;
+                })
+                localStorage.todo=JSON.stringify(this.all);
+            },
+            select(str){
+                this.status=str;
+//                if(str=="all"){
+//                    return this.all;
+//                    this.new=[];
+//                }else{
+//                     this.new = this.all.filter(function (a) {
+//                        return a.state==str;
+//                    })
+//                }
+                localStorage.todo=JSON.stringify(this.all);
+            },
+            edits(item) {
+                item.edit=!item.edit;
+                localStorage.todo=JSON.stringify(this.all);
+            }
+        },
+        computed:{
+            datas: function () {
+                var that = this;
+                return this.all.filter(function (obj) {
+                    if (that.status == "all") {
+                        return obj;
+                    } else {
+                        if (obj.state == that.status) {
+                            return obj;
+                        }
+                    }
+                })
+            }
+        }
+
+    })
+</script>

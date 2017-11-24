@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <style>
+        .button{
+            width: 50px;
+            height: 30px;
+            background: #c7ddef;
+            border: 1px solid saddlebrown;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #000000;
+            line-height: 30px;
+            text-align: center;
+            float: left;
+            margin-right: 20px;
+        }
+        .color{
+            background: #5cb85c;
+        }
+    </style>
+</head>
+<body>
+    <div class="vue">
+        <diy-button name="aaa"></diy-button>
+        <diy-button name="qwq"></diy-button>
+        <diy-button name="ass"></diy-button>
+        <diy-button name="rfr"></diy-button>
+        <diy-button name="lkk"></diy-button>
+
+    </div>
+</body>
+</html>
+<script>
+    Vue.component("diy-button",{
+        props:["name"],
+        template:"<div class='button' :class='{color:color}' @click='back()'>{{name}}</div>",
+        data:function () {
+            return{
+                color:false,
+            }
+        },
+        methods:{
+            back(){
+                this.color=true;
+            }
+        }
+    })
+    var vm=new Vue({
+        el:".vue",
+    })
+</script>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./aside.css">
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="./jquery-3.2.1.js"></script>
+</head>
+<body>
+    <div class="vue">
+
+        <!--<div class="box">-->
+            <!--<ul class="parent">-->
+                <!--<li>-->
+                    <!--<span>1111</span>-->
+                <!--</li>-->
+                <!--<ul class="child">-->
+                    <!--<li><a href="javascrpit:;">11111111</a></li>-->
+                    <!--<li><a href="javascrpit:;">11112222</a></li>-->
+                    <!--<li><a href="javascrpit:;">11113333</a></li>-->
+                    <!--<li><a href="javascrpit:;">11114444</a></li>-->
+                <!--</ul>-->
+                <!--<li>-->
+                    <!--<span>2222</span>-->
+                <!--</li>-->
+                <!--<ul class="child">-->
+                    <!--<li><a href="javascrpit:;">22221111</a></li>-->
+                    <!--<li><a href="javascrpit:;">22222222</a></li>-->
+                    <!--<li><a href="javascrpit:;">22223333</a></li>-->
+                    <!--<li><a href="javascrpit:;">22224444</a></li>-->
+                <!--</ul>-->
+                <!--<li>-->
+                    <!--<span>3333</span>-->
+                    <!--<ul class="child">-->
+                        <!--<li><a href="javascrpit:;">33331111</a></li>-->
+                        <!--<li><a href="javascrpit:;">33332222</a></li>-->
+                        <!--<li><a href="javascrpit:;">33333333</a></li>-->
+                        <!--<li><a href="javascrpit:;">33334444</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<span>4444</span>-->
+                    <!--<ul class="child">-->
+                        <!--<li><a href="javascrpit:;">44441111</a></li>-->
+                        <!--<li><a href="javascrpit:;">44442222</a></li>-->
+                        <!--<li><a href="javascrpit:;">44443333</a></li>-->
+                        <!--<li><a href="javascrpit:;">44444444</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<span>5555</span>-->
+                    <!--<ul class="child">-->
+                        <!--<li><a href="javascrpit:;">55551111</a></li>-->
+                        <!--<li><a href="javascrpit:;">55552222</a></li>-->
+                        <!--<li><a href="javascrpit:;">55553333</a></li>-->
+                        <!--<li><a href="javascrpit:;">55554444</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<span>6666</span>-->
+                    <!--<ul class="child">-->
+                        <!--<li><a href="javascrpit:;">66661111</a></li>-->
+                        <!--<li><a href="javascrpit:;">66662222</a></li>-->
+                        <!--<li><a href="javascrpit:;">66663333</a></li>-->
+                        <!--<li><a href="javascrpit:;">66664444</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+
+        <parent v-bind:all="all"></parent>
+
+    </div>
+</body>
+</html>
+<script>
+    Vue.component("parent",{
+        props:["all"],
+        template:`
+            <div class="box">
+                <ul v-for="item in all" class="parent">
+                     <li v-on:click="shows(item)">
+                            <span>{{item['text']}}</span>
+                            <ul class='child' v-show="!item['hide']"><li v-for="aa in item['con']"><a href='javascrpit:;'>{{aa['name']}}</a></li>
+                            </ul>
+                     </li>
+                </ul>
+            </div>
+        `,
+        methods:{
+            shows:function(item){
+                item.hide = !item.hide;
+            }
+        }
+    })
+    new Vue({
+        el:".vue",
+        data:{
+            all:[
+                {
+                    text:"基础",
+                    con:[{name:"111111"},{name:"222222"},{name:"333333"}],
+                    hide:false
+                },
+                {
+                    text:"组件",
+                    con:[{name:"111111"},{name:"333333"}],
+                    hide:false
+                },
+                {
+                    text:"路由",
+                    con:[{name:"222222"},{name:"333333"}],
+                    hide:false
+                }
+            ]
+        }
+    })
+</script>
