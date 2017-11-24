@@ -85,7 +85,7 @@
                 <ul v-for="item in all" class="parent">
                      <li v-on:click="shows(item)">
                             <span>{{item['text']}}</span>
-                            <ul class='child' v-show="!item['hide']"><li v-for="aa in item['con']"><a href='javascrpit:;'>{{aa['name']}}</a></li>
+                            <ul class='child' v-show="!item['hide']"><li v-for="aa in item['con']"><a href='javascript:;'>{{aa['name']}}</a></li>
                             </ul>
                      </li>
                 </ul>
